@@ -1,0 +1,73 @@
+#CACHE{0}
+
+
+<BOUCLE_secteur(RUBRIQUES) {id_rubrique} {tout} {0,1}>
+#SET{'num_secteur', #ID_SECTEUR}
+</BOUCLE_secteur>
+
+<div id="contenu_acc">
+
+  <div id="bloc_orange">
+    <BOUCLE_rub_presentation(RUBRIQUES) {id_rubrique=1} {0,1} >
+    <div id="bloc_gauche_orange">
+    <BOUCLE_presentation(ARTICLES) {id_rubrique} {par num titre, titre} {0,1}>
+      [<div class="titre_actu">(#TITRE|supprimer_numero)</div>]
+      [<div class="chapo_actu">(#CHAPO)</div>]
+      <a class="lk_infos" href="#URL_RUBRIQUE">>plus d'infos</a>
+    </BOUCLE_presentation>
+    
+    </div>
+    [<div id="bloc_droite_orange">
+      (#LOGO_RUBRIQUE)
+    </div>]
+   </BOUCLE_rub_presentation>
+  </div>
+  <div id="bloc_bleu">
+    <BOUCLE_rub_actu(RUBRIQUES) {id_rubrique=6} {0,1} >
+      <BOUCLE_art_actu(ARTICLES) {id_rubrique} {par date} {inverse} {0,1}>
+        [<div class="titre_actu">(#TITRE|supprimer_numero)</div>]
+        [<div class="chapo_actu">(#CHAPO)</div>]
+        <a class="lk_infos" href="#URL_RUBRIQUE">>plus d'infos</a>
+      </BOUCLE_art_actu>
+    </BOUCLE_rub_actu>
+    
+  </div>
+  
+  <ul>
+  <BOUCLE_blocs(RUBRIQUES) {tout} >
+    <?php 
+      $rub="#ID_RUBRIQUE";
+      if ($rub>1 and $rub<6): echo "<li id=\"bloc".$rub."\">";
+    ?>
+    
+      <BOUCLE_art_blocs(ARTICLES) {id_rubrique} {par num titre, titre}>
+        #SET{'lien', #URL_RUBRIQUE}
+      </BOUCLE_art_blocs>
+      
+      <BOUCLE_ssrub(RUBRIQUES) {id_parent}  {par num titre, titre} {0,1}>
+      
+        <BOUCLE_ssart(ARTICLES) {id_rubrique} {par num titre, titre}>
+        #SET{'lien', #URL_RUBRIQUE}
+        </BOUCLE_ssart>
+      
+      </BOUCLE_ssrub>
+        #SET{'lien', #URL_RUBRIQUE}
+      <//B_ssrub>
+      <//B_art_blocs>
+      <a href="#GET{'lien'}">#LOGO_RUBRIQUE</a>
+    <?php
+      echo "</li>";
+      endif;
+    ?>
+  </BOUCLE_blocs>
+  </ul>
+  <BOUCLE_contact(RUBRIQUES) {id_rubrique==7} {0,1}>
+  <div id="bloc_contact">
+    <div id="bloc_logo_contact">
+      <a href="#URL_RUBRIQUE">#LOGO_RUBRIQUE</a>
+    </div>
+  </div>
+  </BOUCLE_contact>  
+    </div>
+  
+

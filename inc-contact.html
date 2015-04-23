@@ -1,0 +1,25 @@
+#CACHE{0}
+
+<BOUCLE_secteur(RUBRIQUES) {id_rubrique} {tout} {0,1}>
+#SET{'num_secteur', #ID_SECTEUR}
+</BOUCLE_secteur>
+
+<!--<div id="conteneur">-->
+
+<div id="bloc_contenu">
+
+  <BOUCLE_article(ARTICLES) {id_rubrique} {par num titre}>
+    <div id="contact_gauche">
+    [<div class="titre">(#TITRE|supprimer_numero)</div>]
+    <?php
+      echo "<div class=\"texte\">\r";
+      include("squelettes/contact.php");
+      echo "</div>\r";
+    ?>
+    </div>
+  </BOUCLE_article>
+  
+</div>
+<INCLURE{fond=inc-droite}{id_rubrique}>
+
+<!--</div>-->
